@@ -3,6 +3,7 @@ package com.Estoque.Gerenciamento.Controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.Estoque.Gerenciamento.Model.EntradaProdutos.entradaDeProdutos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class EstoqueController {
     @Autowired
     EstoqueRepositoriy repositoriy;
 
-    @RequestMapping("/estoque")
+    @RequestMapping("/api/estoque")
 
     public List<Estoque> listarTodos() {
         return repositoriy.findAll();
@@ -61,14 +62,15 @@ public class EstoqueController {
      * }
      * }
      */
+    entradaDeProdutos entradaDeProdutos;
 
-    @PostMapping(value = "/estoque")
+    @PostMapping(value = "/api/adicionarEstoque")
     public Estoque adicionarProduto(@RequestBody Estoque estoque) {
         return repositoriy.save(estoque);
 
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/api/localizarProduto/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
             Optional<Estoque> searchID = repositoriy.findById(id);
@@ -82,19 +84,29 @@ public class EstoqueController {
         }
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/api/deletarProduto/{id}")
     public ResponseEntity<?> deletarProduto(@PathVariable Long id) {
         try {
             repositoriy.deleteById(id);
+        
+
             return ResponseEntity.ok("Produto deletado com sucesso");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar produto");
         }
     }
 
-    @PutMapping(value = "{id}")
+    @PutMapping(value = "/api/atualizarProduto/{id}")
     public Estoque atualizar(@RequestBody Estoque estoque) {
         return repositoriy.save(estoque);
     }
+
+
+    @PostMapping(value ="/api/adicionarEntradaProduto")
+    public entradaDeProdutos entradaProduto(@PathVariable entradaDeProdutos entrada){
+        return  entradaProduto(entrada);
+    }
+
+
 
 }

@@ -1,15 +1,15 @@
 package com.Estoque.Gerenciamento.Model.Estoque;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.Estoque.Gerenciamento.Model.EntradaProdutos.entradaDeProdutos;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -17,6 +17,8 @@ import lombok.Setter;
 @Setter
 @Table(name = "estoque")
 public class Estoque {
+    @OneToMany(mappedBy = "estoque" ,  cascade = CascadeType.ALL)
+    private List<entradaDeProdutos> entradas = new ArrayList<>();
 
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 @Id
@@ -36,8 +38,9 @@ private String distribuidora;
 private String tipoProduto;
 
 
-
-
+    public void adicionarEntrada(entradaDeProdutos entrada){
+        this.entradas.add(entrada);
+    }
 
 
     
