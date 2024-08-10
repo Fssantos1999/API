@@ -2,7 +2,8 @@ package com.EstoqueAPI.Estoque.Model;
 
 import com.EstoqueAPI.Estoque.DTO.EstoqueDTO;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
