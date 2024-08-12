@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -23,18 +24,10 @@ public class EstoqueController {
     @Autowired
     private EstoqueService estoqueService;
 
-
-
     @GetMapping("/listarProdutos")
     public List<EstoqueDTO> listarProdutos(){
         return  estoqueService.ListarEstoque();
     }
-
-
-
-
-
-
 
     @PostMapping("/adicionarproduto")
     public ResponseEntity<EstoqueDTO> adicionarProduto(@RequestBody EstoqueDTO estoqueDTO) {
@@ -47,4 +40,11 @@ public class EstoqueController {
         estoqueService.salvarProduto(estoqueDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping("/deletarProduto/{id}")
+    public ResponseEntity<Void> deletarProduto(@PathVariable UUID id) {
+       estoqueService.deletarProduto(id);
+       return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
