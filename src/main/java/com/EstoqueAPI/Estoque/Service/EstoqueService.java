@@ -5,6 +5,7 @@ import com.EstoqueAPI.Estoque.Model.Estoque;
 import com.EstoqueAPI.Estoque.Repository.EstoqueRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,17 +28,11 @@ public class EstoqueService {
         estoque.setTipoDoProduto(estoqueDTO.getTipoDoProduto());
         estoque.setNomeDoProduto(estoqueDTO.getNomeDoProduto());
         Estoque salvarEstoque = estoqueRepository.save(estoque);
-
-
-//CONVERTE A ENTIDADE DE VOLTA PARA DTO
-
+        //CONVERTE A ENTIDADE DE VOLTA PARA DTO
         EstoqueDTO salvarEstoqueDTO = new EstoqueDTO();
         salvarEstoqueDTO.setNomeDoProduto(estoque.getNomeDoProduto());
         salvarEstoqueDTO.setTipoDoProduto(estoque.getTipoDoProduto());
-
-
         return salvarEstoqueDTO;
-
     }
 
     public List<EstoqueDTO> ListarEstoque() {
@@ -58,11 +53,17 @@ public class EstoqueService {
             return ResponseEntity.notFound().build();
         }
 
+    }
+
+    public EstoqueDTO localizarProduto(UUID id) {
+        Optional<Estoque> estoque = estoqueRepository.findByIdNativo(id);
+        return estoque.map(EstoqueDTO::new).orElse(null);
+    }
 
     }
 
 
-}
+
 
 
 

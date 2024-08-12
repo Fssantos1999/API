@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -23,28 +24,41 @@ public class EstoqueController {
 
     @Autowired
     private EstoqueService estoqueService;
-
-    @GetMapping("/listarProdutos")
+    //funcionando
+    @GetMapping("/listarprodutos")
     public List<EstoqueDTO> listarProdutos(){
         return  estoqueService.ListarEstoque();
     }
 
-    @PostMapping("/adicionarproduto")
+    @GetMapping("/localizarproduto/{id}")
+    public ResponseEntity<EstoqueDTO> localizarProduto(@PathVariable UUID id) {
+        EstoqueDTO estoqueDTO = estoqueService.localizarProduto(id);
+        if (estoqueDTO != null) {
+            return ResponseEntity.ok(estoqueDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    @PostMapping("/adicionarProduto")
     public ResponseEntity<EstoqueDTO> adicionarProduto(@RequestBody EstoqueDTO estoqueDTO) {
         EstoqueDTO produtoSalvo = estoqueService.salvarProduto(estoqueDTO);
         return new ResponseEntity<>(produtoSalvo, HttpStatus.CREATED);
     }
 
-    @PutMapping("/atualizarEstoque")
-    public ResponseEntity<Void> atualizarEstoque(@RequestBody EstoqueDTO estoqueDTO) {
-        estoqueService.salvarProduto(estoqueDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
-    @DeleteMapping("/deletarProduto/{id}")
+    @DeleteMapping("/deletarproduto/{id}")
     public ResponseEntity<Void> deletarProduto(@PathVariable UUID id) {
        estoqueService.deletarProduto(id);
        return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+
+
+
+
+
 
 }

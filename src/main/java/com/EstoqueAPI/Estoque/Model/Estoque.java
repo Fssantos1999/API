@@ -18,11 +18,11 @@ public class Estoque implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @NotNull
+
     @Column(nullable = false)
     private String nomeDoProduto;
 
-    @NotNull
+
     @Column(nullable = false)
     private String tipoDoProduto;
 

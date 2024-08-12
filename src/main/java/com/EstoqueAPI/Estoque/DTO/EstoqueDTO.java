@@ -1,12 +1,14 @@
 package com.EstoqueAPI.Estoque.DTO;
 
 import com.EstoqueAPI.Estoque.Model.Estoque;
+import jakarta.persistence.Id;
 import org.springframework.beans.BeanUtils;
 
 import java.util.UUID;
 
 public class EstoqueDTO {
-
+    private static final long serialVersionUID = 1L;
+    @Id
     private UUID Produtoid;
     private String nomeDoProduto;
     private String tipoDoProduto;
