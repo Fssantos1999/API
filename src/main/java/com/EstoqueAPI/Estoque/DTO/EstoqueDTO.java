@@ -1,6 +1,9 @@
 package com.EstoqueAPI.Estoque.DTO;
 
 import com.EstoqueAPI.Estoque.Model.Estoque;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;
+import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import org.springframework.beans.BeanUtils;
 
@@ -12,6 +15,8 @@ public class EstoqueDTO {
     private UUID Produtoid;
     private String nomeDoProduto;
     private String tipoDoProduto;
+    @JsonDeserialize
+    private Integer quantidade;
 
     public EstoqueDTO() {
     }
@@ -22,10 +27,11 @@ public class EstoqueDTO {
         this.Produtoid = estoqueEntity.getId();
     }
 
-    public EstoqueDTO(UUID Produtoid, String nomeDoProduto, String tipoDoProduto) {
+    public EstoqueDTO(UUID Produtoid, String nomeDoProduto, String tipoDoProduto,Integer quantidade) {
         this.Produtoid = Produtoid;
         this.nomeDoProduto = nomeDoProduto;
         this.tipoDoProduto = tipoDoProduto;
+        this.quantidade = quantidade;
     }
 
     public UUID getProdutoid() {
@@ -51,4 +57,13 @@ public class EstoqueDTO {
     public void setTipoDoProduto(String tipoDoProduto) {
         this.tipoDoProduto = tipoDoProduto;
     }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+
+    }
+
 }

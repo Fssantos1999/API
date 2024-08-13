@@ -1,12 +1,15 @@
 package com.EstoqueAPI.Estoque.Model;
 
 import com.EstoqueAPI.Estoque.DTO.EstoqueDTO;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;
 import jakarta.persistence.*;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -21,19 +24,19 @@ public class Estoque implements Serializable {
 
     @Column(nullable = false)
     private String nomeDoProduto;
-
-
+    @Column(name = "quantidade")
+    @JsonDeserialize
+    private Integer quantidade = 0;
     @Column(nullable = false)
     private String tipoDoProduto;
 
     public Estoque() {
     }
-
-
-    public Estoque(UUID id, String nomeDoProduto, String tipoDoProduto) {
+    public Estoque(UUID id, String nomeDoProduto, String tipoDoProduto,Integer quantidade) {
         this.id = id;
         this.nomeDoProduto = nomeDoProduto;
         this.tipoDoProduto = tipoDoProduto;
+        this.quantidade = quantidade;
     }
 
     // Construtor para transformar DTO em entidade
@@ -64,4 +67,16 @@ public class Estoque implements Serializable {
     public void setId(UUID id) {
         this.id = id;
     }
+
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+
+    }
+
+
+
 }

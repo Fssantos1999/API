@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -56,11 +57,39 @@ public class EstoqueService {
     }
 
     public EstoqueDTO localizarProduto(UUID id) {
-        Optional<Estoque> estoque = estoqueRepository.findByIdNativo(id);
-        return estoque.map(EstoqueDTO::new).orElse(null);
+        Optional<Estoque> estoque = estoqueRepository.findByQuery(id);
+        return estoque.map(EstoqueDTO::new)
+                .orElse(null);
+    }
+    //Passei o UUID ID para o corpo, assim posso fazer alteração direto na URL da api
+    public EstoqueDTO adicionarQuantidade(UUID id, int quantidade) {
+        Optional<Estoque> estoque = estoqueRepository.findById(id);
+
+        if (estoque.isPresent()) {
+            Estoque estoqueExistente = estoque.get();
+            estoqueExistente.setQuantidade(estoqueExistente.getQuantidade() + quantidade);
+            estoqueRepository.save(estoqueExistente);
+        //Transformando novamente o Estoque para DTO
+            EstoqueDTO estoqueDTO = new EstoqueDTO();
+            estoqueDTO.setNomeDoProduto(estoqueExistente.getNomeDoProduto());
+            estoqueDTO.setTipoDoProduto(estoqueExistente.getTipoDoProduto());
+            estoqueDTO.setQuantidade(estoqueExistente.getQuantidade());
+
+            return estoqueDTO;
+        } else {
+            throw new RuntimeException("Produto não encontrado");
+        }
     }
 
+
+
+
+
+
+
+
     }
+
 
 
 

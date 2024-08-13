@@ -53,9 +53,11 @@ public class EstoqueController {
        estoqueService.deletarProduto(id);
        return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-
+    //PATCHMAPPING pois só quero atualizar uma parte da do estoque
+    @PatchMapping("/adicionar-quantidade/{id}/{quantidade}")
+    public EstoqueDTO adicionarQuantidade(@PathVariable UUID id, @PathVariable int quantidade) {
+        return estoqueService.adicionarQuantidade(id, quantidade);
+    }
 
 
 
