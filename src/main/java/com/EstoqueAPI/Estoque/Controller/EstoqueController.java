@@ -2,6 +2,7 @@ package com.EstoqueAPI.Estoque.Controller;
 
 import com.EstoqueAPI.Estoque.DTO.EstoqueDTO;
 import com.EstoqueAPI.Estoque.Model.Estoque;
+import com.EstoqueAPI.Estoque.Model.RegistroMovimentacao;
 import com.EstoqueAPI.Estoque.Repository.EstoqueRepository;
 import com.EstoqueAPI.Estoque.Service.EstoqueService;
 import org.springframework.beans.factory.annotation.Autowired;

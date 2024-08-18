@@ -28,9 +28,11 @@ public class EstoqueService {
         Estoque estoque = new Estoque();
         estoque.setTipoDoProduto(estoqueDTO.getTipoDoProduto());
         estoque.setNomeDoProduto(estoqueDTO.getNomeDoProduto());
+        estoque.setFilial(estoqueDTO.getFilial());
         Estoque salvarEstoque = estoqueRepository.save(estoque);
         //CONVERTE A ENTIDADE DE VOLTA PARA DTO
         EstoqueDTO salvarEstoqueDTO = new EstoqueDTO();
+        salvarEstoqueDTO.setFilial(estoque.getFilial());
         salvarEstoqueDTO.setNomeDoProduto(estoque.getNomeDoProduto());
         salvarEstoqueDTO.setTipoDoProduto(estoque.getTipoDoProduto());
         return salvarEstoqueDTO;
@@ -43,7 +45,7 @@ public class EstoqueService {
                 .collect(Collectors.toList());
     }
 
-
+    @Transactional
     public ResponseEntity<?> deletarProduto(UUID id) {
         Optional<Estoque> estoque = estoqueRepository.findById(id);
 
@@ -61,6 +63,7 @@ public class EstoqueService {
         return estoque.map(EstoqueDTO::new)
                 .orElse(null);
     }
+    @Transactional
     //Passei o UUID ID para o corpo, assim posso fazer alteração direto na URL da api
     public EstoqueDTO adicionarQuantidade(UUID id, int quantidade) {
         Optional<Estoque> estoque = estoqueRepository.findById(id);
@@ -74,6 +77,7 @@ public class EstoqueService {
             estoqueDTO.setNomeDoProduto(estoqueExistente.getNomeDoProduto());
             estoqueDTO.setTipoDoProduto(estoqueExistente.getTipoDoProduto());
             estoqueDTO.setQuantidade(estoqueExistente.getQuantidade());
+            estoqueDTO.setFilial(estoqueExistente.getFilial());
 
             return estoqueDTO;
         } else {
