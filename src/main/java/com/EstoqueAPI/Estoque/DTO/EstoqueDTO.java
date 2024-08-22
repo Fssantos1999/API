@@ -49,7 +49,6 @@ public class EstoqueDTO {
         this.tipoDoProduto = tipoDoProduto;
         this.quantidade = quantidade;
         this.filial = filial;
-
     }
     public UUID getProdutoid() {
         return Produtoid;
@@ -80,7 +79,6 @@ public class EstoqueDTO {
     }
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
-
     }
 
     public String getFilial() {

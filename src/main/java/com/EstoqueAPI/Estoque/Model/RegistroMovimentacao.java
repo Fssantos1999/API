@@ -21,7 +21,7 @@ public class RegistroMovimentacao implements Serializable  {
     private Integer quantidadeRecebida;
     private String regiaoSaida;
     private String regiaoEntrada;
-    @DateTimeFormat
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime dataEntrada;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "estoque_id", referencedColumnName = "id")
