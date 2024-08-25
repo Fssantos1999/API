@@ -28,7 +28,11 @@ public class RegistroMovimentacaoController {
         this.registroMovimentacaoService = registroMovimentacaoService;
         this.registroMovimentacaoRepository = registroMovimentacaoRepository;
     }
-
+    /**
+     *Busca por ID o produto  e atualiza os Registros de Movimentações.
+     *
+     * @return a lista de movimentações
+     */
     @PostMapping("/{id}/movimentacao")
     public ResponseEntity<List<EstoqueDTO>> adicionarMovimentacao(
             @RequestBody RegistroMovimentacaoDTO dto,
@@ -58,4 +62,20 @@ public class RegistroMovimentacaoController {
     }
 
 
+    @DeleteMapping("/del/{id}")
+    public ResponseEntity<String> deletarMovimentacao(@PathVariable UUID id) {
+        if (registroMovimentacaoRepository.existsById(id)) {
+            return ResponseEntity.ok("Registro deletado com Sucesso !");
+        }else {
+            return  ResponseEntity.badRequest().body("Registro Não Encontrado !");
+        }
+    }
+
 }
+
+
+
+
+
+
+

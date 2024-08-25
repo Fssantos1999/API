@@ -7,6 +7,7 @@ import com.EstoqueAPI.Estoque.Model.RegistroMovimentacao;
 import com.EstoqueAPI.Estoque.Repository.EstoqueRepository;
 import com.EstoqueAPI.Estoque.Repository.RegistroMovimentacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,13 +65,9 @@ public class RegistroMovimentacaoService {
     }
 
 
-
-
-
-
-
-
-
+    public void deleteRegistroMovimentacao(UUID id) {
+        registroMovimentacaoRepository.deleteById(id);
+    }
 
 
 }
