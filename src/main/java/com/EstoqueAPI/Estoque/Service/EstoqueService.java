@@ -25,18 +25,16 @@ public class EstoqueService {
 
     @Transactional
     public EstoqueDTO salvarProduto(EstoqueDTO estoqueDTO) {
-        Estoque estoque = new Estoque();
-        estoque.setTipoDoProduto(estoqueDTO.getTipoDoProduto());
-        estoque.setNomeDoProduto(estoqueDTO.getNomeDoProduto());
-        estoque.setFilial(estoqueDTO.getFilial());
+        // Cria a entidade Estoque a partir do DTO
+        Estoque estoque = new Estoque(estoqueDTO);
+
+        // Salva a entidade no banco de dados
         Estoque salvarEstoque = estoqueRepository.save(estoque);
-        //CONVERTE A ENTIDADE DE VOLTA PARA DTO
-        EstoqueDTO salvarEstoqueDTO = new EstoqueDTO();
-        salvarEstoqueDTO.setFilial(estoque.getFilial());
-        salvarEstoqueDTO.setNomeDoProduto(estoque.getNomeDoProduto());
-        salvarEstoqueDTO.setTipoDoProduto(estoque.getTipoDoProduto());
-        return salvarEstoqueDTO;
+
+        // Converte a entidade salva de volta para o DTO utilizando o construtor EstoqueDTO
+        return new EstoqueDTO(salvarEstoque);
     }
+
 
     public List<EstoqueDTO> ListarEstoque() {
         return estoqueRepository.findAll()
@@ -59,7 +57,7 @@ public class EstoqueService {
     }
 
     public EstoqueDTO localizarProduto(UUID id) {
-        Optional<Estoque> estoque = estoqueRepository.findByQuery(id);
+        Optional<Estoque> estoque = estoqueRepository.findById(id);
         return estoque.map(EstoqueDTO::new)
                 .orElse(null);
     }

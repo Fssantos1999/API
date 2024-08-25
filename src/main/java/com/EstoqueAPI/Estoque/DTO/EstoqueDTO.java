@@ -1,61 +1,56 @@
 package com.EstoqueAPI.Estoque.DTO;
 
 import com.EstoqueAPI.Estoque.Model.Estoque;
-import com.EstoqueAPI.Estoque.Model.RegistroMovimentacao;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class EstoqueDTO {
-    private static final long serialVersionUID = 1L;
-    @Id
-    private UUID Produtoid;
+
+    private UUID id;
     private String nomeDoProduto;
     private String tipoDoProduto;
     private String filial;
-    @JsonDeserialize
     private Integer quantidade;
-    private List<RegistroMovimentacao> movimentacoes;
+    private List<RegistroMovimentacaoDTO> movimentacoes;
 
+    // Construtor padrão
+    public EstoqueDTO() {}
 
-    public List<RegistroMovimentacao> getMovimentacoes() {
-        return movimentacoes;
-    }
-
-    public void setMovimentacoes(List<RegistroMovimentacao> movimentacoes) {
-        this.movimentacoes = movimentacoes;
-    }
-
-
-
-
-    public EstoqueDTO() {
-    }
-
+    // Construtor que recebe uma entidade Estoque
     public EstoqueDTO(Estoque estoqueEntity) {
         // Copia as propriedades da entidade Estoque para o DTO
         BeanUtils.copyProperties(estoqueEntity, this);
-        this.Produtoid = estoqueEntity.getId();
+        this.id = estoqueEntity.getId();
+
+        // Mapeando as movimentações para DTO
+        if (estoqueEntity.getMovimentacoes() != null) {
+            this.movimentacoes = estoqueEntity.getMovimentacoes().stream()
+                    .map(RegistroMovimentacaoDTO::new)
+                    .collect(Collectors.toList());
+        }
     }
 
-    public EstoqueDTO(UUID Produtoid, String nomeDoProduto, String tipoDoProduto,Integer quantidade, String filial) {
-        this.Produtoid = Produtoid;
+    // Construtor com parâmetros
+    public EstoqueDTO(UUID id, String nomeDoProduto, String tipoDoProduto, Integer quantidade, String filial, List<RegistroMovimentacaoDTO> movimentacoes) {
+        this.id = id;
         this.nomeDoProduto = nomeDoProduto;
         this.tipoDoProduto = tipoDoProduto;
         this.quantidade = quantidade;
         this.filial = filial;
-    }
-    public UUID getProdutoid() {
-        return Produtoid;
+        this.movimentacoes = movimentacoes;
     }
 
-    public void setProdutoid(UUID produtoid) {
-        this.Produtoid = produtoid;
+    // Getters e Setters
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getNomeDoProduto() {
@@ -74,22 +69,27 @@ public class EstoqueDTO {
         this.tipoDoProduto = tipoDoProduto;
     }
 
-    public int getQuantidade() {
+    public Integer getQuantidade() {
         return quantidade;
     }
-    public void setQuantidade(int quantidade) {
+
+    public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
 
     public String getFilial() {
         return filial;
     }
+
     public void setFilial(String filial) {
         this.filial = filial;
     }
 
+    public List<RegistroMovimentacaoDTO> getMovimentacoes() {
+        return movimentacoes;
+    }
 
-
-
-
+    public void setMovimentacoes(List<RegistroMovimentacaoDTO> movimentacoes) {
+        this.movimentacoes = movimentacoes;
+    }
 }

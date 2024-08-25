@@ -2,15 +2,12 @@ package com.EstoqueAPI.Estoque.Model;
 
 import com.EstoqueAPI.Estoque.DTO.EstoqueDTO;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;
 import jakarta.persistence.*;
-
-import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Estoque implements Serializable {
@@ -19,30 +16,31 @@ public class Estoque implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @PrimaryKeyJoinColumn
     private UUID id;
+
     @Column(nullable = false)
     private String nomeDoProduto;
-    @Column(name = "quantidade")
-    private Integer quantidade = 0;
+
     @Column(nullable = false)
     private String tipoDoProduto;
+
+    @Column(nullable = true)
     private String filial;
-    @OneToMany(mappedBy = "estoque", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @Column(name = "quantidade")
+    private Integer quantidade = 0;
+
+    // Mapeamento com RegistroMovimentacao
+    @OneToMany(mappedBy = "estoque", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonManagedReference
     private List<RegistroMovimentacao> movimentacoes;
 
-    public List<RegistroMovimentacao> getMovimentacoes() {
-        return movimentacoes;
-    }
+    // Construtores, Getters e Setters
 
-    public void setMovimentacoes(List<RegistroMovimentacao> movimentacoes) {
-        this.movimentacoes = movimentacoes;
-    }
+    public Estoque() {}
 
-
-    public Estoque() {
-    }
-    public Estoque(UUID id, String nomeDoProduto, String tipoDoProduto,Integer quantidade, String filial) {
+    public Estoque(UUID id, String nomeDoProduto, String tipoDoProduto, Integer quantidade, String filial) {
         this.id = id;
         this.nomeDoProduto = nomeDoProduto;
         this.tipoDoProduto = tipoDoProduto;
@@ -50,9 +48,16 @@ public class Estoque implements Serializable {
         this.filial = filial;
     }
 
-    // Construtor para transformar DTO em entidade
     public Estoque(EstoqueDTO estoqueDTO) {
         BeanUtils.copyProperties(estoqueDTO, this);
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getNomeDoProduto() {
@@ -71,27 +76,27 @@ public class Estoque implements Serializable {
         this.tipoDoProduto = tipoDoProduto;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-
-    public int getQuantidade() {
+    public Integer getQuantidade() {
         return quantidade;
     }
+
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
-
     }
 
     public String getFilial() {
         return filial;
     }
+
     public void setFilial(String filial) {
         this.filial = filial;
+    }
+
+    public List<RegistroMovimentacao> getMovimentacoes() {
+        return movimentacoes;
+    }
+
+    public void setMovimentacoes(List<RegistroMovimentacao> movimentacoes) {
+        this.movimentacoes = movimentacoes;
     }
 }

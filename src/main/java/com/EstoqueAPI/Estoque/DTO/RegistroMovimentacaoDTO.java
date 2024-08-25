@@ -1,15 +1,13 @@
 package com.EstoqueAPI.Estoque.DTO;
 
-import com.EstoqueAPI.Estoque.Model.Estoque;
 import com.EstoqueAPI.Estoque.Model.RegistroMovimentacao;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class RegistroMovDTO {
+public class RegistroMovimentacaoDTO {
 
     private UUID idTransacao;
     private Integer quantidadeRecebida;
@@ -17,22 +15,23 @@ public class RegistroMovDTO {
     private String regiaoEntrada;
     private LocalDateTime dataEntrada;
     private UUID estoqueId;
-    private List<UUID>estoquesIds;
-
-    public RegistroMovDTO() {}
 
 
-    public RegistroMovDTO(UUID idTransacao, Integer quantidadeRecebida, String regiaoSaida,
-                          String regiaoEntrada, LocalDateTime dataEntrada, UUID estoqueId, List<UUID> estoquesIds) {
+    public RegistroMovimentacaoDTO() {}
+
+
+    public RegistroMovimentacaoDTO(UUID idTransacao, Integer quantidadeRecebida, String regiaoSaida,
+                                   String regiaoEntrada, LocalDateTime dataEntrada,UUID estoqueId) {
         this.idTransacao = idTransacao;
         this.quantidadeRecebida = quantidadeRecebida;
         this.regiaoSaida = regiaoSaida;
         this.regiaoEntrada = regiaoEntrada;
         this.dataEntrada = dataEntrada;
         this.estoqueId = estoqueId;
-        this.estoquesIds = estoquesIds;
+
     }
-public RegistroMovDTO(RegistroMovimentacao registroMovimentacaoEntity) {
+
+    public RegistroMovimentacaoDTO(RegistroMovimentacao registroMovimentacaoEntity) {
     if (registroMovimentacaoEntity.getEstoque() != null) {
         this.estoqueId = registroMovimentacaoEntity.getEstoque().getId();
     }
@@ -79,19 +78,11 @@ public RegistroMovDTO(RegistroMovimentacao registroMovimentacaoEntity) {
         this.dataEntrada = dataEntrada;
     }
 
-    public UUID getIdEstoque() {
+    public UUID getEstoqueId() {
         return estoqueId;
     }
 
-    public void setIdEstoque(UUID idEstoque) {
-        this.estoqueId = idEstoque;
-    }
-
-    public List<UUID> getEstoquesIds() {
-        return estoquesIds;
-    }
-
-    public void setEstoquesIds(List<UUID> estoquesIds) {
-        this.estoquesIds = estoquesIds;
+    public void setEstoqueId(UUID estoqueId) {
+        this.estoqueId = estoqueId;
     }
 }

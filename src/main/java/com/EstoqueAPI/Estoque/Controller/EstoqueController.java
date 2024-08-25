@@ -25,7 +25,7 @@ public class EstoqueController {
 
     @Autowired
     private EstoqueService estoqueService;
-    //funcionando
+
     @GetMapping("/listarprodutos")
     public List<EstoqueDTO> listarProdutos(){
         return  estoqueService.ListarEstoque();
