@@ -29,7 +29,7 @@ public class Estoque implements Serializable {
     private String filial;
 
     @Column(name = "quantidade")
-    private Integer quantidade = 0;
+    private  Integer quantidade = 0;
 
     // Mapeamento com RegistroMovimentacao
     @OneToMany(mappedBy = "estoque", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
