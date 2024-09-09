@@ -31,26 +31,7 @@ public class RegistroMovimentacaoService {
      * @return a lista atualizada de estoques
      */
     public List<EstoqueDTO> adicionarMovimentacao(RegistroMovimentacaoDTO dto, UUID id) {
-        Estoque estoque = estoqueRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Estoque não encontrado com o ID: " + id));
-
-        RegistroMovimentacao movimentacao = new RegistroMovimentacao();
-        movimentacao.setQuantidadeRecebida(dto.getQuantidadeRecebida());
-        movimentacao.setRegiaoSaida(dto.getRegiaoSaida());  // Certifique-se de que o valor não é null
-        movimentacao.setRegiaoEntrada(dto.getRegiaoEntrada()); // Certifique-se de que o valor não é null
-        movimentacao.setDataEntrada(dto.getDataEntrada());
-        movimentacao.setEstoque(estoque);
-
-        registroMovimentacaoRepository.save(movimentacao);
-
-        Integer novaQuantidade = estoque.getQuantidade() + dto.getQuantidadeRecebida();
-        estoque.setQuantidade(novaQuantidade);
-
-        estoqueRepository.save(estoque);
-
-        return estoqueRepository.findAll().stream()
-                .map(EstoqueDTO::new)
-                .collect(Collectors.toList());
+        return null;
     }
 
     /**
@@ -59,9 +40,7 @@ public class RegistroMovimentacaoService {
      * @return uma lista de DTOs de movimentação
      */
     public List<RegistroMovimentacaoDTO> buscarTodos() {
-        return registroMovimentacaoRepository.findAll().stream()
-                .map(RegistroMovimentacaoDTO::new)
-                .collect(Collectors.toList());
+            return null;
     }
 
 

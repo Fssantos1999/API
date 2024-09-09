@@ -48,9 +48,7 @@ public class Estoque implements Serializable {
         this.filial = filial;
     }
 
-    public Estoque(EstoqueDTO estoqueDTO) {
-        BeanUtils.copyProperties(estoqueDTO, this);
-    }
+
 
     public UUID getId() {
         return id;

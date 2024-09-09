@@ -27,8 +27,11 @@ public class EstoqueController {
     private EstoqueService estoqueService;
 
     @GetMapping("/listarprodutos")
+
     public List<EstoqueDTO> listarProdutos(){
         return  estoqueService.ListarEstoque();
+
+
     }
 
     @GetMapping("/localizarproduto/{id}")

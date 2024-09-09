@@ -1,6 +1,7 @@
 package com.EstoqueAPI.Estoque.Service;
 
 import com.EstoqueAPI.Estoque.DTO.EstoqueDTO;
+import com.EstoqueAPI.Estoque.EstoqueMapStruct.ConverterDTOeEntity;
 import com.EstoqueAPI.Estoque.Model.Estoque;
 import com.EstoqueAPI.Estoque.Repository.EstoqueRepository;
 import jakarta.transaction.Transactional;
@@ -21,35 +22,30 @@ import java.util.stream.Collectors;
 public class EstoqueService {
     @Autowired
     EstoqueRepository estoqueRepository;
-
+    @Autowired
+    ConverterDTOeEntity mapper;
 
     @Transactional
     public EstoqueDTO salvarProduto(EstoqueDTO estoqueDTO) {
-        // Cria a entidade Estoque a partir do DTO
-        Estoque estoque = new Estoque(estoqueDTO);
 
-        // Salva a entidade no banco de dados
-        Estoque salvarEstoque = estoqueRepository.save(estoque);
+        return mapper.entidadeParaDTO(estoqueRepository.save(mapper.DTOParaEntidade(estoqueDTO)));
 
-        // Converte a entidade salva de volta para o DTO utilizando o construtor EstoqueDTO
-        return new EstoqueDTO(salvarEstoque);
+
     }
 
 
     public List<EstoqueDTO> ListarEstoque() {
-        return estoqueRepository.findAll()
-                .stream()
-                .map(EstoqueDTO::new)
-                .collect(Collectors.toList());
+
+      return mapper.entidadeParaListDTO(estoqueRepository.findAll());
+
     }
+
 
     @Transactional
     public ResponseEntity<?> deletarProduto(UUID id) {
-        Optional<Estoque> estoque = estoqueRepository.findById(id);
-
-        if (estoque.isPresent()) {
-            estoqueRepository.deleteById(estoque.get().getId());
-            return ResponseEntity.ok().build();
+        if (estoqueRepository.existsById(id)) {
+            estoqueRepository.deleteById(id);
+            return ResponseEntity.ok().body("Produto deletado com sucesso!");
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -57,9 +53,7 @@ public class EstoqueService {
     }
 
     public EstoqueDTO localizarProduto(UUID id) {
-        Optional<Estoque> estoque = estoqueRepository.findById(id);
-        return estoque.map(EstoqueDTO::new)
-                .orElse(null);
+        return mapper.entidadeParaDTO(estoqueRepository.findById(id).get());
     }
     @Transactional
     //Passei o UUID ID para o corpo, assim posso fazer alteração direto na URL da api
@@ -70,7 +64,7 @@ public class EstoqueService {
             Estoque estoqueExistente = estoque.get();
             estoqueExistente.setQuantidade(estoqueExistente.getQuantidade() + quantidade);
             estoqueRepository.save(estoqueExistente);
-        //Transformando novamente o Estoque para DTO
+            //Transformando novamente o Estoque para DTO
             EstoqueDTO estoqueDTO = new EstoqueDTO();
             estoqueDTO.setNomeDoProduto(estoqueExistente.getNomeDoProduto());
             estoqueDTO.setTipoDoProduto(estoqueExistente.getTipoDoProduto());
@@ -81,6 +75,11 @@ public class EstoqueService {
         } else {
             throw new RuntimeException("Produto não encontrado");
         }
+
+
+
+
+
     }
 
 

@@ -19,20 +19,6 @@ public class EstoqueDTO {
     // Construtor padrão
     public EstoqueDTO() {}
 
-    // Construtor que recebe uma entidade Estoque
-    public EstoqueDTO(Estoque estoqueEntity) {
-        // Copia as propriedades da entidade Estoque para o DTO
-        BeanUtils.copyProperties(estoqueEntity, this);
-        this.id = estoqueEntity.getId();
-
-        // Mapeando as movimentações para DTO
-        if (estoqueEntity.getMovimentacoes() != null) {
-            this.movimentacoes = estoqueEntity.getMovimentacoes().stream()
-                    .map(RegistroMovimentacaoDTO::new)
-                    .collect(Collectors.toList());
-        }
-    }
-
     // Construtor com parâmetros
     public EstoqueDTO(UUID id, String nomeDoProduto, String tipoDoProduto, Integer quantidade, String filial, List<RegistroMovimentacaoDTO> movimentacoes) {
         this.id = id;

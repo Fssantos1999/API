@@ -31,12 +31,6 @@ public class RegistroMovimentacaoDTO {
 
     }
 
-    public RegistroMovimentacaoDTO(RegistroMovimentacao registroMovimentacaoEntity) {
-    if (registroMovimentacaoEntity.getEstoque() != null) {
-        this.estoqueId = registroMovimentacaoEntity.getEstoque().getId();
-    }
-    BeanUtils.copyProperties(registroMovimentacaoEntity, this);
-}
 
     public UUID getIdTransacao() {
         return idTransacao;
