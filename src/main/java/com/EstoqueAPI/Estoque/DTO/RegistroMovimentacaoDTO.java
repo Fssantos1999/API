@@ -16,7 +16,7 @@ public class RegistroMovimentacaoDTO {
     private LocalDateTime dataEntrada;
     private UUID estoqueId;
 
-
+//constructor
     public RegistroMovimentacaoDTO() {}
 
 
