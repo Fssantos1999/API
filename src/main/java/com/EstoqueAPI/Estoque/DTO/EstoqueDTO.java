@@ -29,6 +29,9 @@ public class EstoqueDTO {
         this.movimentacoes = movimentacoes;
     }
 
+    public EstoqueDTO(UUID id, String nomeDoProduto, Integer quantidade, String tipoDoProduto) {
+    }
+
     // Getters e Setters
 
     public UUID getId() {
